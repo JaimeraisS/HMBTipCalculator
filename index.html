@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tip Calculator</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<style type="text/css">
+		p {font-family:Verdana, Geneva, sans-serif;font-size: 20px;line-height: 100%;margin-top: 5px; margin-bottom: 5px;color:teal;font-weight: 100px;text-shadow:  0px 1px 2px #000;}
+		::placeholder {color: darkslategray;opacity: 1;}
+		:-ms-input-placeholder {color: darkslategray;}
+		::-ms-input-placeholder {color: darkslategray;}
+		input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none; margin-right:10px;}
+	</style>
+</head>
+
+<body class="center-align teal lighten-5" onload="resetTipCalc()">
+	<p style="margin-top: 100px">S P L I</p>
+	<p style="margin-bottom: 50px">T T E R</p>
+	<div class="row">
+		<form action="">
+			<div class="col s12 m6 push-m3">
+				<div class="card-panel white row s12 m6" style="border-radius:30px">
+					<div class="col s12 m6">
+						<div class="col s12">
+							<div class="input-field col s12">
+					        	<i class="material-icons prefix validate cyan lighten-5" style="line-height: 160%; margin-top:-7px; border-radius: 15px 0px 0px 15px">attach_money</i>
+					          	<input id="bill" type="number" class="validate cyan lighten-5" min="0" max="1000000" step="0.01" style="border-radius:0px 15px 15px 0px; text-align: right; font-weight: bold; color:darkslategray" onkeyup="calculateTip()">
+					          	<label for="bill">Bill</label>
+					    	</div>
+						</div>
+						<div style="text-align:left; margin-left:10px; color:darkslategray; font-size:15px; font-family:Verdana,Geneva,'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">Select Tip %</div>
+						<div class="col s12 margin">
+							<a class="input-field col s6 m4 waves-effect waves-light btn cyan darken-4" style="font-weight: bold; color:whitesmoke" onclick="setTipRate(5)">5%</a>
+							<a class="input-field col s6 m4 waves-effect waves-light btn cyan darken-4" style="font-weight: bold; color:whitesmoke" onclick="setTipRate(10)">10%</a>
+							<a class="input-field col s6 m4 waves-effect waves-light btn cyan darken-4" style="font-weight: bold; color:whitesmoke" onclick="setTipRate(15)">15%</a>
+							<a class="input-field col s6 m4 waves-effect waves-light btn cyan darken-4" style="font-weight: bold; color:whitesmoke" onclick="setTipRate(25)">25%</a>
+							<a class="input-field col s6 m4 waves-effect waves-light btn cyan darken-4" style="font-weight: bold; color:whitesmoke" onclick="setTipRate(50)">50%</a>
+							<input id="customTip" type="number" class="col s6 m4 validate cyan lighten-5" min="0" max="5000" step="1" placeholder="Custom" style="text-align: right; height: 35px; margin-top:15px; font-weight: bold; color:darkslategray; border-radius: 5px 5px 5px 5px" onkeyup="setTipRate(this.value)">
+							<input id="tipRate" type="hidden">
+						</div>
+						<div class="col s12">
+							<div class="input-field col s12">
+								<i class="material-icons prefix validate cyan lighten-5" style="line-height: 160%; margin-top:-8px; border-radius: 15px 0px 0px 15px">person</i>
+						    	<input id="nop" type="number" class="validate cyan lighten-5" min="1" max="40" step="1" style="border-radius:0px 15px 15px 0px; text-align: right; font-weight: bold; color:darkslategray" onkeyup="calculateTip()">
+						    	<label for="nop">Number of People</label>
+							</div>
+						</div>
+					</div>
+					<div class="col s12 m6">
+						<div class="card-panel cyan darken-4" style="border-radius:30px; height: 340px">
+							<div class="col s12">
+								<div class="col s6 left-align">
+									<div class="col s12" style="text-align:left; margin-top:20px; color:whitesmoke; font-size:15px; font-family:Verdana,Geneva,'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">Tip Amount</div>
+									<div class="col s12" style="text-align:left; color:lightseagreen; font-size:10px; font-family:Verdana,Geneva,'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">/ person</div>
+								</div>
+								<div class="col s6">
+									<div id="tipPerPerson" style="margin-top:15px; font-size:25px; color:lightseagreen; font-weight: bold; text-shadow:  0px 1px 2px #000;"></div>
+								</div>
+							</div>
+							<div class="col s12">
+								<div class="col s6 left-align">
+									<div class="col s12" style="text-align:left; margin-top:50px; color:whitesmoke; font-size:15px; font-family:Verdana,Geneva,'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">Total</div>
+									<div class="col s12" style="text-align:left; color:lightseagreen; font-size:10px; font-family:Verdana,Geneva,'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">/ person</div>
+								</div>
+								<div class="col s6">
+									<div id="totalPerPerson" style="margin-top:45px; font-size:25px; color:lightseagreen; font-weight: bold; text-shadow:  0px 1px 2px #000;"></div>
+								</div>
+							</div>
+							<div class="card-action">
+								<button class="btn waves-effect waves-light col s12" type="reset" style="margin-top:40px; vertical-align: bottom; color:darkslategray; font-weight:bold" name="reset" onclick="resetTipCalc()">RESET</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
